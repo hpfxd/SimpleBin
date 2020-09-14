@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>SimpleBin</title>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:site_name" content="SimpleBin">
+	<meta property="og:title" content="Home">
+
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center display-1">SimpleBin</h1>
+		<div class="jumbotron pasteContainer">
+			<h2 class="display-2">New Paste</h2>
+			<form>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="pasteTitle">Title</label>
+						<input id="pasteTitle" placeholder="Title... (Optional)" class="form-control" type="text" maxlength="32">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="pasteLanguage">Syntax Highlighting</label>
+						<select id="pasteLanguage" class="form-control"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="pasteContent">Content</label>
+					<textarea id="pasteContent" placeholder="Content..." class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" rows="15" minlength="10" maxlength="20000"></textarea>
+				</div>
+			</form>
+
+			<h2 class="display-3">API Docs</h2>
+			<p>This service is mostly for storing text data. If you'd like to store binary data, you may want to encode it to Base64 first.</p>
+			<p><small class="text-muted">Headers to allow CORS are added on all API routes. &lt;3</small></p>
+			<div class="row">
+				<h3>New Paste</h3>
+				<p>50 MB total body limit.</p>
+				<p>10 requests per IP per minute are allowed.</p>
+				<div class="col">
+					<p>Request:</p>
+					<pre><code>
+						POST /api/paste/new
+						Content-Type: application/json
+
+						{
+							"name": "Test Paste", // optional
+							"syntax": "Java", // optional, exclude for plain text. all values are seen in the syntax highlighting dropdown menu
+							"content": "public static void main(String[] args) {}"
+						}
+					</code></pre>
+				</div>
+				<div class="col">
+					<p>Response:</p>
+					<pre><code>
+						{
+							"id": "exampleid"
+						}
+					</code></pre>
+				</div>
+			</div>
+
+			<div class="row">
+				<h3>Get Paste</h3>
+				<div class="col">
+					<p>Request:</p>
+					<pre><code>
+						GET /api/paste/:pasteId
+						Content-Type: application/json
+					</code></pre>
+				</div>
+				<div class="col">
+					<p>Response:</p>
+					<pre><code>
+						{
+							"id": "exampleid",
+							"content": "paste content",
+							"syntax": {
+								"id": 0, // internal syntax id, this can be ignored for most cases
+								"name": "PLAIN_TEXT", // internal syntax name, this can be ignored for most cases
+								"displayName": "Plain Text", // the syntax name
+								"mime": "text/plain" // the first registered syntax mime type
+							}
+						}
+					</code></pre>
+				</div>
+			</div>
+
+			<div class="row">
+				<h3>Error Response</h3>
+				<p>If the server responds with a error code, the response should be like the following JSON Object.</p>
+				<pre><code>
+					{
+						"error": "IllegalArgumentException", // Java exception class name
+						"message": "Content cannot be null." // the exception message
+					}
+				</code></pre>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/popper.min.js" defer></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js" defer></script>
+
+	<link rel="stylesheet" type="text/css" href="/static/css/codemirror.css">
+	<script type="text/javascript" src="/static/js/codemirror.js"></script>
+	<script type="text/javascript" src="/static/js/mode/meta.js"></script>
+
+	<script type="text/javascript" src="/static/js/index.js"></script>
+</body>
+</html>
