@@ -11,10 +11,18 @@ public class APIErrorHandler implements Handler<RoutingContext>  {
     public void handle(RoutingContext ctx) {
         HttpServerResponse response = ctx.response();
 
-        response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        response.end(new JsonObject()
-                .put("error", ctx.failure().getClass().getSimpleName())
-                .put("message", ctx.failure().getMessage())
-        .toBuffer());
+        Throwable failure = ctx.failure();
+        int statusCode = response.getStatusCode();
+
+        if (statusCode == -1) {
+            statusCode = 500;
+        }
+
+        response.setStatusCode(statusCode)
+                .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .end(new JsonObject()
+                        .put("error", failure.getClass().getSimpleName())
+                        .put("message", failure.getMessage())
+                        .toBuffer());
     }
 }

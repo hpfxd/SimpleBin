@@ -16,7 +16,7 @@
 		<h1 class="text-center display-1">SimpleBin</h1>
 		<div class="jumbotron pasteContainer">
 			<h2 class="display-2">New Paste</h2>
-			<form>
+			<form id="pasteForm">
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="pasteTitle">Title</label>
@@ -31,6 +31,7 @@
 					<label for="pasteContent">Content</label>
 					<textarea id="pasteContent" placeholder="Content..." class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" rows="15" minlength="10" maxlength="20000"></textarea>
 				</div>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
 			</form>
 
 			<h2 class="display-3">API Docs</h2>
@@ -103,8 +104,12 @@
 	</div>
 
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/toast.min.js" async></script>
 	<script type="text/javascript" src="/static/js/popper.min.js" defer></script>
 	<script type="text/javascript" src="/static/js/bootstrap.min.js" defer></script>
+
+	<script type="text/javascript" src="/static/js/toast.min.js" async></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/toast.min.css">
 
 	<link rel="stylesheet" type="text/css" href="/static/css/codemirror.css">
 	<script type="text/javascript" src="/static/js/codemirror.js"></script>

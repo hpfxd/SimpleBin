@@ -8,9 +8,11 @@ CodeMirror.modeInfo.forEach((mode) => {
 });
 
 const loadedModes = [];
+let selectedMode = "Plain Text";
 $("#pasteLanguage").on("change", () => {
 	const name = $("#pasteLanguage").val();
 	const mode = CodeMirror.findModeByName(name);
+	selectedMode = mode.name;
 
 	const cb = () => {
 		console.log("Mode loaded, setting.");
@@ -26,11 +28,52 @@ $("#pasteLanguage").on("change", () => {
 	}
 });
 
-// https://stackoverflow.com/a/26230865/9920121
-[].forEach.call(document.querySelectorAll('code'), function($code) {
-	var lines = $code.textContent.split('\n');
+$("#pasteForm").submit((event) => {
+	event.preventDefault();
 
-	if (lines[0] === '')
+	const fail = (reason) => {
+		$.toast({
+			type: "error",
+			title: "Error",
+			content: reason,
+			delay: 10000
+		});
+	};
+
+	$.ajax({
+		url: "/api/paste/new",
+		method: "POST",
+		data: JSON.stringify({
+			name: $("pasteTitle").val(),
+			syntax: selectedMode,
+			content: editor.getValue()
+		}),
+		contentType: "application/json",
+		dataType: "json"
+	}).then((response) => {
+		if (response.error) {
+			fail(response.error + ": " + response.message);
+		} else {
+			$.toast({
+				type: "success",
+				title: "Success!",
+				content: "Your paste was uploaded! Redirecting...",
+				delay: 1000
+			});
+			setTimeout(() => {
+				window.location.href = "/" + response.id;
+			}, 500);
+		}
+	}).catch((err) => {
+		fail(err);
+	});
+});
+
+// https://stackoverflow.com/a/26230865/9920121
+[].forEach.call(document.querySelectorAll("code"), function($code) {
+	var lines = $code.textContent.split("\n");
+
+	if (lines[0] === "")
 	{
 		lines.shift()
 	}
@@ -39,10 +82,10 @@ $("#pasteLanguage").on("change", () => {
 	var indentation = (matches = /^[\s\t]+/.exec(lines[0])) !== null ? matches[0] : null;
 	if (!!indentation) {
 		lines = lines.map(function(line) {
-			line = line.replace(indentation, '')
-			return line.replace(/\t/g, '    ')
+			line = line.replace(indentation, "")
+			return line.replace(/\t/g, "    ")
 		});
 
-		$code.textContent = lines.join('\n').trim();
+		$code.textContent = lines.join("\n").trim();
 	}
 });

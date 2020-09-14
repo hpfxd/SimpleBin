@@ -168,7 +168,7 @@ public class SimpleBin {
                     } else {
                         ctx.fail(res.cause());
                     }
-                })).failureHandler(ErrorHandler.create(false));
+                })).failureHandler(ErrorHandler.create(true));
 
         log.info("Binding...");
         server.requestHandler(router)
