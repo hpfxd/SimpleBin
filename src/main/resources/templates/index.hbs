@@ -35,12 +35,13 @@
 
 			<h2 class="display-3">API Docs</h2>
 			<p>This service is mostly for storing text data. If you'd like to store binary data, you may want to encode it to Base64 first.</p>
-			<p><small class="text-muted">Headers to allow CORS are added on all API routes. &lt;3</small></p>
-			<div class="row">
+			<p><small class="text-muted">CORS is enabled on all API routes. &lt;3</small></p>
+
+			<div>
 				<h3>New Paste</h3>
 				<p>50 MB total body limit.</p>
 				<p>10 requests per IP per minute are allowed.</p>
-				<div class="col">
+				<div>
 					<p>Request:</p>
 					<pre><code>
 						POST /api/paste/new
@@ -48,12 +49,12 @@
 
 						{
 							"name": "Test Paste", // optional
-							"syntax": "Java", // optional, exclude for plain text. all values are seen in the syntax highlighting dropdown menu
+							"syntax": "Java", // optional, exclude for plain text.
 							"content": "public static void main(String[] args) {}"
 						}
 					</code></pre>
 				</div>
-				<div class="col">
+				<div>
 					<p>Response:</p>
 					<pre><code>
 						{
@@ -63,16 +64,15 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div>
 				<h3>Get Paste</h3>
-				<div class="col">
+				<div>
 					<p>Request:</p>
 					<pre><code>
 						GET /api/paste/:pasteId
-						Content-Type: application/json
 					</code></pre>
 				</div>
-				<div class="col">
+				<div>
 					<p>Response:</p>
 					<pre><code>
 						{
@@ -89,9 +89,9 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<h3>Error Response</h3>
-				<p>If the server responds with a error code, the response should be like the following JSON Object.</p>
+			<h3>Error Response</h3>
+			<p>If the server responds with a error code, the response should be like the following JSON Object.</p>
+			<div>
 				<pre><code>
 					{
 						"error": "IllegalArgumentException", // Java exception class name
