@@ -172,7 +172,7 @@ public class SimpleBin {
 
         log.info("Binding...");
         server.requestHandler(router)
-                .listen(8080);
+                .listen(port, "0.0.0.0");
         log.info("Listening on *:{}.", port);
     }
 }
