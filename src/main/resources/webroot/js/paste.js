@@ -4,6 +4,8 @@ const editor = CodeMirror.fromTextArea($("#pasteContent")[0], {
 	indentUnit: 4
 });
 
+editor.setSize("100%", "85vh");
+
 function pasteInit(modeName) {
 	if (!modeName || modeName === "Plain Text") return;
 	const mode = CodeMirror.findModeByName(modeName);
