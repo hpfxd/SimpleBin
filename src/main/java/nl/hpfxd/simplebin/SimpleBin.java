@@ -115,7 +115,7 @@ public class SimpleBin {
             }
 
             ctx.response().putHeader(HttpHeaders.CONTENT_TYPE, "application/json").end(new JsonObject()
-                    .put("id", paste.getId())
+                    .put("id", paste.getId().toHexString())
                     .put("content", paste.getContent())
                     .put("syntax", new JsonObject()
                             .put("id", paste.getSyntax().getId())
@@ -152,23 +152,26 @@ public class SimpleBin {
 
             String content = paste.getContent();
 
-            ctx.put("pasteId", paste.getId().toHexString());
-            ctx.put("pasteContent", content);
+            JsonObject data = new JsonObject();
+            data.put("pasteId", paste.getId().toHexString());
+            data.put("pasteContent", content);
             if (content.length() > 100) {
-                ctx.put("pasteContentPreview", content.substring(0, 100));
+                data.put("pasteContentPreview", content.substring(0, 100));
             } else {
-                ctx.put("pasteContentPreview", content);
+                data.put("pasteContentPreview", content);
             }
-            ctx.put("pasteSyntaxName", paste.getSyntax().getName());
-        }, false).handler((ctx) -> engine.render(ctx.data(),
-                TemplateHandler.DEFAULT_TEMPLATE_DIRECTORY + "/paste", (res) -> {
-                    if (res.succeeded()) {
-                        ctx.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html")
-                                .end(res.result());
-                    } else {
-                        ctx.fail(res.cause());
-                    }
-                })).failureHandler(ErrorHandler.create(true));
+            data.put("pasteSyntaxName", paste.getSyntax().getName());
+
+            engine.render(data,
+                    TemplateHandler.DEFAULT_TEMPLATE_DIRECTORY + "/paste", (res) -> {
+                        if (res.succeeded()) {
+                            ctx.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html")
+                                    .end(res.result());
+                        } else {
+                            ctx.fail(res.cause());
+                        }
+                    });
+        }, false).failureHandler(ErrorHandler.create());
 
         log.info("Binding...");
         server.requestHandler(router)
