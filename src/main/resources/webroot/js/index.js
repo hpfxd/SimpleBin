@@ -44,7 +44,7 @@ $("#pasteForm").submit((event) => {
 		url: "/api/paste/new",
 		method: "POST",
 		data: JSON.stringify({
-			name: $("pasteTitle").val(),
+			name: $("#pasteTitle").val(),
 			syntax: selectedMode,
 			content: editor.getValue()
 		}),
