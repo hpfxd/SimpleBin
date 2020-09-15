@@ -146,10 +146,6 @@ public class SimpleBin {
                 return;
             }
 
-            if (paste.getName() != null) {
-                ctx.put("pasteName", paste.getName());
-            }
-
             String content = paste.getContent();
 
             JsonObject data = new JsonObject();
@@ -159,6 +155,10 @@ public class SimpleBin {
                 data.put("pasteContentPreview", content.substring(0, 100));
             } else {
                 data.put("pasteContentPreview", content);
+            }
+
+            if (paste.getName() != null) {
+                data.put("pasteName", paste.getName());
             }
             data.put("pasteSyntaxName", paste.getSyntax().getName());
 
