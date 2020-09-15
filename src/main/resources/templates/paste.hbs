@@ -14,12 +14,12 @@
 </head>
 <body>
 	<div class="container">
-		<h1 class="text-center display-1">SimpleBin</h1>
+		<h1 class="text-center display-1"><a href="/">SimpleBin</a></h1>
 		<div class="jumbotron pasteContainer">
 			{{#if (isdefined pasteName)}}
-			<h2 class="display-2">{{pasteName}}</h2>
+			<h2 class="display-4">{{pasteName}}</h2>
 			{{/if}}
-			<h2><small class="text-muted">ID: {{pasteId}}</small></h2>
+			<h2><a href="/{{pasteId}}"><small class="text-muted">ID: {{pasteId}}</small></a></h2>
 			<textarea id="pasteContent" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" rows="15" readonly>{{pasteContent}}</textarea>
 		</div>
 	</div>
