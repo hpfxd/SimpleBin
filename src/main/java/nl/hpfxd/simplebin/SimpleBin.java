@@ -151,11 +151,13 @@ public class SimpleBin {
             JsonObject data = new JsonObject();
             data.put("pasteId", paste.getId().toHexString());
             data.put("pasteContent", content);
-            if (content.length() > 100) {
-                data.put("pasteContentPreview", content.substring(0, 100));
-            } else {
-                data.put("pasteContentPreview", content);
+
+            String preview = content.replace("\r", "").replace("\n", " ");
+            if (preview.length() > 64) {
+                preview = content.substring(0, 64);
+                preview += "...";
             }
+            data.put("pasteContentPreview", preview);
 
             if (paste.getName() != null) {
                 data.put("pasteName", paste.getName());
