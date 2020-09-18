@@ -154,8 +154,7 @@ public class SimpleBin {
 
             String preview = content.replace("\r", "").replace("\n", " ");
             if (preview.length() > 64) {
-                preview = content.substring(0, 64);
-                preview += "...";
+                preview = preview.substring(0, 64).trim() + "...";
             }
             data.put("pasteContentPreview", preview);
 
